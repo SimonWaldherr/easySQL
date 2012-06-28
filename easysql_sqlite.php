@@ -106,12 +106,74 @@ function easysql_sqlite_select($array, $limit='no', $query='AND')
     $i = 0;
     
     
-    while ($row = $results->fetchArray()) {
+    while ($row = $results->fetchArray())
+      {
         $return[$i] = $row;
         ++$i;
-        //var_dump($row);
-    }
+      }
     return $return;
+  }
+
+function easysql_sqlite_export($array, $format='csv', $where='return')
+  {
+    $db = new SQLite3($array[0]);
+    $query1 = 'SELECT * FROM '.$array[1];
+    $results = $db->query($query1);
+    $return = '';
+    $i = 0;
+    if($format == 'csv')
+      {
+        while ($row = $results->fetchArray())
+          {
+            //var_dump($row);
+            foreach($row as $id => $result)
+              {
+                if(is_int($id))
+                  {
+                    if($id == 0)
+                      {
+                        ++$i;
+                      }
+                    $returnarray[$i][] = $result;
+                    //echo 'i: '.$i.' id: '.$id.' result: '.$result."\n";
+                  }
+              }
+          }
+          //var_dump($returnarray);
+        foreach ($returnarray as $line)
+          {
+            $return .= implode(";", $line)."\n";
+          }
+      }
+    
+    
+    if($where == 'return')
+      {
+        return $return;
+      }
+    elseif($where == 'echo')
+      {
+        echo $return;
+      }
+    else
+      {
+        $success = true;
+        if(!$handle = fopen($where, 'w'))
+          {
+            $success = false;
+          }
+        
+        if(fwrite($handle, $return) === FALSE)
+          {
+            $success = false;
+          }
+        
+        if(!fclose($handle))
+          {
+            $success = false;
+          }
+        return $success;
+      }
   }
 
 ?>

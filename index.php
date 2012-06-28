@@ -110,8 +110,28 @@ foreach($returnarray as $nr)
 
 echo '</tbody></table>';
 echo '<p>the last inserted row is: '.$rowid.'; </p>';
-echo '<p>the last updated row is: '.$updaterow.'; </p><!--';
+echo '<p>the last updated row is: '.$updaterow.'; </p><p>';
+
+if((!($rowid%10))OR($rowid<10))
+  {
+    $export[0] = './sqlite.sql';
+    $export[1] = 'tablename';
+    
+    if(easysql_sqlite_export($export, 'csv', './export.csv'))
+      {
+        echo 'data export successfull';
+      }
+    else
+      {
+        echo 'error on data export';
+      }
+  }
+else
+  {
+    echo 'export is not necessary';
+  }
+
+echo ' <br><a href="./export.csv">open csv-file</a></p><!--';
   var_dump($returnarray);
 echo '--></body></html>';
-
 ?>
