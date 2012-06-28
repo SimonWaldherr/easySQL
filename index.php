@@ -28,10 +28,12 @@ $insert['sessioni'] = session_id();
 
 $rowid = easysql_sqlite_insert($insert);
 
+$updaterow = ($rowid-rand(1,4));
+
 $update[0] = './sqlite.sql';
 $update[1] = 'tablename';
-$update[2]['id'] = ($rowid-rand(1,4));
-$update[3]['password'] = md5('new_password'.$update[2]['id'].rand(111,999));
+$update[2]['id'] = $updaterow;
+$update[3]['password'] = easysql_hashmix(md5('new_password'.$update[2]['id'].rand(111,999)));
 $update[3]['timestam'] = time();
 $update[3]['vcounter'] = $_SESSION['count'];
 
@@ -41,7 +43,7 @@ $select[0] = './sqlite.sql';
 $select[1] = 'tablename';
 $select['id'] = '>;'.($rowid-5);
 
-$returnarray = easysql_sqlite_select($select);
+$returnarray = easysql_sqlite_select($select, 5);
 
 ?><html>
 <head>
@@ -108,28 +110,8 @@ foreach($returnarray as $nr)
 
 echo '</tbody></table>';
 echo '<p>the last inserted row is: '.$rowid.'; </p>';
-echo '</body></html>';
+echo '<p>the last updated row is: '.$updaterow.'; </p><!--';
+  var_dump($returnarray);
+echo '--></body></html>';
 
-/*
-var_dump($returnarray);
-
-foreach($returnarray as $nr)
-  {
-    foreach($nr as $key => $value)
-      {
-	    if(is_string($key))
-	      {
-            if($key == 'emailadr')
-              {
-                echo $key.': '.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string')."\n";
-              }
-            else
-              {
-	            echo $key.': '.$value."\n";
-              }
-          }
-      }
-  }
-
-*/
 ?>
