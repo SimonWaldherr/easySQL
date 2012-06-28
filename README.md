@@ -49,9 +49,16 @@ a php database wrapper for easy read and write actions on a sql db (SQLite, MySQ
 	
 	var_dump(easysql_sqlite_select($array));
 
+##Export
+
+	$array[0] = './path/to/sqliteDB.sql';
+	$array[1] = 'tablename';
+	
+	easysql_sqlite_export($export, 'csv', './file.csv');
+
 ###Info
 
 Demo: [here](http://simon.waldherr.eu/projects/easysql/)  
 License: MIT  
-Version: 0.1  
+Version: 0.2  
 Date: June 2012
