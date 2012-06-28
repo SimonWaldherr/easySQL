@@ -26,13 +26,20 @@ $insert['timestam'] = time();
 $insert['vcounter'] = $_SESSION['count'];
 $insert['sessioni'] = session_id();
 
-easysql_sqlite_insert($insert);
+$rowid = easysql_sqlite_insert($insert);
 
+$update[0] = './sqlite.sql';
+$update[1] = 'tablename';
+$update[2]['id'] = ($rowid-rand(1,4));
+$update[3]['password'] = md5('new_password'.$update[2]['id'].rand(111,999));
+$update[3]['timestam'] = time();
+$update[3]['vcounter'] = $_SESSION['count'];
+
+easysql_sqlite_update($update);
 
 $select[0] = './sqlite.sql';
 $select[1] = 'tablename';
-$select['id'] = '>;0';
-
+$select['id'] = '>;'.($rowid-5);
 
 $returnarray = easysql_sqlite_select($select);
 
@@ -99,7 +106,9 @@ foreach($returnarray as $nr)
 	echo '</tr>';
   }
 
-echo '</tbody></table></body></html>';
+echo '</tbody></table>';
+echo '<p>the last inserted row is: '.$rowid.'; </p>';
+echo '</body></html>';
 
 /*
 var_dump($returnarray);

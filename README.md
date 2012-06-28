@@ -1,19 +1,26 @@
 easySQL
 =======
 
-a database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)
+a php database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)
 
 ##Create Database/Table
 
-	$array[0] = './path/to/sqliteDB.sql';
-	$array[1] = 'tablename';
+	//sqlite:
+		$array[0] = './path/to/sqliteDB.sql';
+		$array[1] = 'tablename';
+	
+	//mysql:
+		$array[0][0] = 'server.tld';
+		$array[0][1] = 'username';
+		$array[0][2] = 'password';
+		$array[1] = 'tablename';
+	
 	$array['id'] = 'integer PRIMARY KEY AUTOINCREMENT';
 	$array['username'] = 'varchar NOT NULL UNIQUE';
 	$array['password'] = 'varchar NOT NULL';
 	$array['column'] = '...'; // constraints
 	
 	easysql_sqlite_create($array);
-
 
 ##Insert
 
@@ -25,13 +32,22 @@ a database wrapper for easy read and write actions on a sql db (SQLite, MySQL, P
 	
 	easysql_sqlite_create($array);
 
+##Update
+
+	$array[0] = './path/to/sqliteDB.sql';
+	$array[1] = 'tablename';
+	$array[2]['id'] = 1337;
+	$array[3]['password'] = 'new_password';
+	
+	easysql_sqlite_update($array);
+
 ##Select
 
 	$array[0] = './path/to/sqliteDB.sql';
 	$array[1] = 'tablename';
 	$array['id'] = '3';
 	
-	easysql_sqlite_select($array);
+	var_dump(easysql_sqlite_select($array));
 
 ###Info
 
