@@ -41,13 +41,13 @@ easysql_sqlite_update($update);
 
 $select[0] = './sqlite.sql';
 $select[1] = 'tablename';
-$select['id'] = '>;'.($rowid-5);
+$select['id'] = '>;'.($rowid-5).'||'.($rowid-15);
 
-$returnarray = easysql_sqlite_select($select, 5);
+$returnarray = easysql_sqlite_select($select, 6);
 
 ?><html>
 <head>
-<title>easySQL</title>
+<title>easySQL Example 1</title>
 <style>
 thead{
 	background: #ccc;

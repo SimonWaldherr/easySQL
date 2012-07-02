@@ -80,14 +80,34 @@ function easysql_sqlite_select($array, $limit='no', $query='AND')
             {
               if(is_string($key))
                 {
-                  $valarray = explode(';', $value);
-                  if(!isset($valarray[1]))
+                  $wherearray = explode('||', $value);
+                  if(!isset($wherearray[1]))
                     {
-                      $query1 .= $key." = '".$value."' ".$query.' ';
+                      $valarray = explode(';', $value);
+                      if(!isset($valarray[1]))
+                        {
+                          $query1 .= $key." = '".$value."' ".$query.' ';
+                        }
+                      else
+                        {
+                          $query1 .= $key.' '.$valarray[0]." '".$valarray[1]."' ".$query.' ';
+                        }
                     }
                   else
                     {
-                      $query1 .= $key.' '.$valarray[0]." '".$valarray[1]."' ".$query.' ';
+                      $query = 'OR';
+                      foreach($wherearray as $where)
+                        {
+                          $valarray = explode(';', $where);
+                          if(!isset($valarray[1]))
+                            {
+                              $query1 .= $key." = '".$where."' ".$query.' ';
+                            }
+                          else
+                            {
+                              $query1 .= $key.' '.$valarray[0]." '".$valarray[1]."' ".$query.' ';
+                            }
+                        }
                     }
                 }
             }
@@ -101,6 +121,7 @@ function easysql_sqlite_select($array, $limit='no', $query='AND')
       {
         $query1 = $query;
       }
+    //echo "\n".$query1."\n";
     $results = $db->query($query1);
     //var_dump ($results);
     $i = 0;
