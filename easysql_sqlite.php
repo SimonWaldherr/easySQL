@@ -29,8 +29,8 @@ function easysql_sqlite_insert($array)
           }
       }
     $query = str_replace(',,)', ') ', $query1.',)').str_replace(',,)', ');', $query2.',)');
-    //return $db->exec($query);
     $db->exec($query);
+    
     return $db->lastInsertRowID();
   }
 
@@ -195,6 +195,24 @@ function easysql_sqlite_export($array, $format='csv', $where='return')
           }
         return $success;
       }
+  }
+
+function easysql_sqlite_count($array)
+  {
+    $db = new SQLite3($array[0]);
+    $query1 = "SELECT count(id) FROM $array[1]";
+    $results = $db->querySingle($query1);
+    return $results;
+  }
+
+function easysql_sqlite_maxmin($array)
+  {
+    $db = new SQLite3($array[0]);
+    $query1 = 'SELECT max('.$array[2].') FROM '.$array[1];
+    $results = $db->query($query1);
+    $row = $results->fetchArray();
+
+    return $row[0];
   }
 
 ?>
