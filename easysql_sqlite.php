@@ -205,10 +205,14 @@ function easysql_sqlite_count($array)
     return $results;
   }
 
-function easysql_sqlite_maxmin($array)
+function easysql_sqlite_maxmin($array, $where='')
   {
     $db = new SQLite3($array[0]);
     $query1 = 'SELECT max('.$array[2].') FROM '.$array[1];
+    if($where != '')
+      {
+        $query1 = $query1.' WHERE '.$where;
+      }
     $results = $db->query($query1);
     $row = $results->fetchArray();
 

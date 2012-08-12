@@ -24,11 +24,12 @@ function loadtweets($twitteraccount, $filename, $lasttweet = 'false')
                 $tweet_text = preg_replace( '@(?<![.*">])\b(?:(?:https?|ftp|file)://|[a-z]\.)[-A-Z0-9+&#/%=~_|$?!:,.]*[A-Z0-9+&#/%=~_|$]@i', '<a href="\0" target="_blank">\0</a>', $tweet_text );
 
                 $tweet_text = preg_replace('(@([a-zA-Z0-9_]+))', "<a href='http://www.twitter.com/\$1'>\$0</a>", $tweet_text);
-                $tweet_text = easysql_raw2hex(preg_replace('(#([a-zA-Z0-9_-äüöß-]+))', "<a href='http://search.twitter.com/search?q=%23\$1'>#\$1</a>", $tweet_text));
+                //$tweet_text = easysql_raw2hex(preg_replace('(#([a-zA-Z0-9_-äüöß-]+))', "<a href='http://search.twitter.com/search?q=%23\$1'>#\$1</a>", $tweet_text));
+                $tweet_text = urlencode(preg_replace('(#([a-zA-Z0-9_-äüöß-]+))', "<a href='http://search.twitter.com/search?q=%23\$1'>#\$1</a>", $tweet_text));
 
                 $insert[0]           = $filename;
                 $insert[1]           = 'timeline';
-                $insert['source']    = 'twitter';
+                $insert['source']    = 'twitter|'.$twitteraccount;
                 $insert['title']     = 'tweet';
                 $insert['text']      = $tweet_text;
                 $insert['sourceurl'] = $tweet->link;
@@ -76,7 +77,7 @@ if(file_exists($filename))
     $maxmin[0] = $filename;
     $maxmin[1] = 'timeline';
     $maxmin[2] = 'timestamp';
-    $maxmin[3] = easysql_sqlite_maxmin($maxmin);
+    $maxmin[3] = easysql_sqlite_maxmin($maxmin, "source =  'twitter|".$twitteraccount."'");
     echo 'Timestamp des letzten Eintrags: '.easysql_sqlite_maxmin($maxmin)."\n<br>";
     echo 'Datenbank enthält: '.easysql_sqlite_count(array($filename, 'timeline')).' Einträge'."\n<br>";
     echo 'Neu geladene Tweets: '.loadtweets($twitteraccount, $filename, $maxmin[3]);
