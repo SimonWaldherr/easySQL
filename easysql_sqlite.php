@@ -135,6 +135,36 @@ function easysql_sqlite_select($array, $limit='no', $query='AND')
     return $return;
   }
 
+function easysql_sqlite_getsorted($array, $order = '', $limit = '', $direction = '')
+  {
+    $db = new SQLite3($array[0]);
+    $query = 'SELECT * FROM '.$array[1];
+    if($order != '')
+      {
+        $query .= ' ORDER BY '.$order;
+        if($direction)
+          {
+            $query .= ' DESC';
+          }
+      }
+
+    if(is_int($limit))
+      {
+        $query .= ' LIMIT '.$limit.';';
+      }
+    
+    $results = $db->query($query.';');
+    $i = 0;
+    
+    
+    while ($row = $results->fetchArray())
+      {
+        $return[$i] = $row;
+        ++$i;
+      }
+    return $return;
+  }
+
 function easysql_sqlite_export($array, $format='csv', $where='return')
   {
     $db = new SQLite3($array[0]);
