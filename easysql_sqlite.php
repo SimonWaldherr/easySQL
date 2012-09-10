@@ -70,7 +70,7 @@ function easysql_sqlite_update($array, $query='AND')
     $results = $db->exec($query1);
   }
 
-function easysql_sqlite_select($array, $limit='no', $query='AND')
+function easysql_sqlite_select($array, $limit='no', $query='AND', $other='')
   {
     $db = new SQLite3($array[0]);
     $query1 = '';
@@ -114,7 +114,11 @@ function easysql_sqlite_select($array, $limit='no', $query='AND')
           $query1 = 'SELECT * FROM '.$array[1].' WHERE '.str_replace($query.' ,)', ';', $query1.',)');
           if(is_int($limit))
             {
-              $query1 .= ' LIMIT '.$limit.';';
+              $query1 .= ' LIMIT '.$limit;
+            }
+          if($other != '')
+            {
+              $query1 .= ' '.$other;
             }
       }
     else
@@ -122,7 +126,7 @@ function easysql_sqlite_select($array, $limit='no', $query='AND')
         $query1 = $query;
       }
     //echo "\n".$query1."\n";
-    $results = $db->query($query1);
+    $results = $db->query($query1.';');
     //var_dump ($results);
     $i = 0;
     
