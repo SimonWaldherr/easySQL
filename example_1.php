@@ -47,7 +47,7 @@ $returnarray = easysql_sqlite_select($select, 6);
 
 ?><html>
 <head>
-<title>easySQL Example 1</title>
+<title>easySQL Example 1 (SQLite)</title>
 <style>
 thead{
 	background: #ccc;

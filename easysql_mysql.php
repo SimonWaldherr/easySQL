@@ -166,7 +166,7 @@ function easysql_mysql_export($array, $format='csv', $where='return')
     $i = 0;
     if($format == 'csv')
       {
-        while ($row = $results->fetchArray())
+        while ($row = $results->fetch_array())
           {
             foreach($row as $id => $result)
               {
@@ -185,7 +185,6 @@ function easysql_mysql_export($array, $format='csv', $where='return')
             $return .= implode(";", $line)."\n";
           }
       }
-    
     
     if($where == 'return')
       {

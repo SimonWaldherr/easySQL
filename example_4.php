@@ -6,7 +6,7 @@ include_once ('./crypto.php');
 
 ?><html>
 <head>
-<title>easySQL Example 4</title>
+<title>easySQL Example 4 (SQLite)</title>
 <style>
 thead{
   background: #ccc;

@@ -57,7 +57,7 @@ a php database wrapper for easy read and write actions on a sql db (SQLite, MySQ
 
 ###Info
 
-Demo: [here](http://cdn.simon.waldherr.eu/projects/easysql/)  
+Demo: [here](http://cdn.simon.waldherr.eu/projects/easySQL/)  
 License: MIT  
 Version: 0.3  
 Date: September 2012

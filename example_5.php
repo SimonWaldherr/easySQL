@@ -40,7 +40,7 @@
 
 ?><html>
 <head>
-<title>easySQL Example 5</title>
+<title>easySQL Example 5 (MySQL)</title>
 <style>
 
 thead{
