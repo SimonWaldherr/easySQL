@@ -1,69 +1,70 @@
 <?php
 
-include_once ('./notsoimportant.php');
-include_once ('./easysql_mysql.php');
-include_once ('./crypto.php');
-include_once ('./mysql-config.php');
-echo "demotime".microtime()."\n"."<br>";
-$create = $mysqlarray;
-$create['id'] = 'integer AUTO_INCREMENT';
-$create['username'] = 'varchar(255) NOT NULL';
-$create['password'] = 'varchar(255) NOT NULL';
-$create['emailadr'] = 'varchar(255) NOT NULL';
-$create['timestam'] = 'integer';
-$create['vcounter'] = 'smallint';
-$create['sessioni'] = 'varchar(255)';
-echo "demotime".microtime()."\n"."<br>";
-easysql_mysql_create($create);
-echo "demotime".microtime()."\n"."<br>";
-$rand = rand(1,50000);
-$insert = $mysqlarray;
-$insert['username'] = 'John Doe '.$rand;
-$insert['password'] = easysql_hashmix($rand);
-$insert['emailadr'] = easysql_raw2hex(easysql_encrypt('john.doe.'.$rand.'@gmail.com', 'this is the secret to encrypt the string'));
-$insert['timestam'] = time();
-$insert['vcounter'] = $_SESSION['count'];
-$insert['sessioni'] = session_id();
-echo "demotime".microtime()."\n"."<br>";
-$rowid = easysql_mysql_insert($insert);
-echo "demotime".microtime()."\n"."<br>";
-$updaterow = ($rowid-rand(1,4));
-echo "demotime".microtime()."\n"."<br>";
-$update = $mysqlarray;
-$update[2]['id'] = $updaterow;
-$update[3]['password'] = easysql_hashmix(md5('new_password'.$update[2]['id'].rand(111,999)));
-$update[3]['timestam'] = time();
-$update[3]['vcounter'] = $_SESSION['count'];
-echo "demotime".microtime()."\n"."<br>";
-easysql_mysql_update($update);
-echo "demotime".microtime()."\n"."<br>";
-$select = $mysqlarray;
-$select['id'] = '>;'.($rowid-5).'||'.($rowid-15);
-echo "demotime".microtime()."\n"."<br>";
-$returnarray = easysql_mysql_select($select, 6);
-echo "demotime".microtime()."\n"."<br>";
+  include_once ('./notsoimportant.php');
+  include_once ('./easysql_mysql.php');
+  include_once ('./crypto.php');
+  include_once ('./mysql-config.php');
+
+  $create = $mysqlarray;
+  $create['id'] = 'integer NOT NULL AUTO_INCREMENT PRIMARY KEY';
+  $create['username'] = 'varchar(255) NOT NULL';
+  $create['password'] = 'varchar(255) NOT NULL';
+  $create['emailadr'] = 'varchar(255) NOT NULL';
+  $create['timestam'] = 'integer';
+  $create['vcounter'] = 'smallint';
+  $create['sessioni'] = 'varchar(255)';
+  easysql_mysql_create($create);
+
+  $rand = rand(1,50000);
+
+  $insert = $mysqlarray;
+  $insert['username'] = 'John Doe '.$rand;
+  $insert['password'] = easysql_hashmix($rand);
+  $insert['emailadr'] = easysql_raw2hex(easysql_encrypt('john.doe.'.$rand.'@gmail.com', 'this is the secret to encrypt the string'));
+  $insert['timestam'] = time();
+  $insert['vcounter'] = $_SESSION['count'];
+  $insert['sessioni'] = session_id();
+  $rowid = easysql_mysql_insert($insert);
+
+  $updaterow = ($rowid-rand(1,4));
+  $update = $mysqlarray;
+  $update[2]['id'] = $updaterow;
+  $update[3]['password'] = easysql_hashmix(md5('new_password'.$update[2]['id'].rand(111,999)));
+  $update[3]['timestam'] = time();
+  $update[3]['vcounter'] = $_SESSION['count'];
+  easysql_mysql_update($update);
+
+  $select = $mysqlarray;
+  $select['id'] = '>;'.($rowid-5).'||'.($rowid-15);
+  $returnarray = easysql_mysql_select($select, 6);
+
 ?><html>
 <head>
 <title>easySQL Example 5</title>
 <style>
+
 thead{
   background: #ccc;
 }
-td{
-  padding: 8px;
-  background: #aaa;
-  overflow: hidden;
-}
 
-.esql2{
-  width:50px;
-}
-.esql6{
-  max-width: 360px;
-}
-.esql14{
-  max-width: 500px;
-}
+  td{
+    padding: 8px;
+    background: #aaa;
+    overflow: hidden;
+  }
+
+  .esql2{
+    width:50px;
+  }
+
+  .esql6{
+    max-width: 360px;
+  }
+
+  .esql14{
+    max-width: 500px;
+  }
+
 </style>
 </head>
 <body>
@@ -90,7 +91,6 @@ foreach($returnarray as $nr)
     {
     if(is_string($key))
       {
-      //echo '<tr>';
       if($key == 'emailadr')
         {
         echo '<td class="esql'.$classcount.'">'.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string').'</td>'."\n";

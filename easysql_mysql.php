@@ -3,8 +3,8 @@
 function easysql_mysql_create($array)
   {
     $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    
     $query = 'CREATE TABLE '.$array[1].' (';
-    echo "demotime1 ".microtime()."\n"."<br>";
     foreach($array as $key => $value)
       {
         if(is_string($key))
@@ -12,16 +12,13 @@ function easysql_mysql_create($array)
             $query .= ' `'.$key.'` '.$value.',';
           }
       }
-    echo "demotime2 ".microtime()."\n"."<br>";
     if ($db->connect_errno)
       {
         printf("Connect failed: %s\n", $db->connect_error);
         exit();
       }
-    echo "demotime3 ".microtime()."\n"."<br>";
     $query = str_replace(',,)', ')', $query.',)');
-    echo "\n".$query."\n";
-    return $db->exec($query);
+    return $db->query($query);
   }
 
 function easysql_mysql_insert($array)
@@ -33,19 +30,18 @@ function easysql_mysql_insert($array)
       {
         if(is_string($key))
           {
-            $query1 .= '"'.$key.'",';
-            $query2 .= '"'.$value.'",';
+            $query1 .= '`'.$key.'`,';
+            $query2 .= '\''.$value.'\',';
           }
       }
     $query = str_replace(',,)', ') ', $query1.',)').str_replace(',,)', ');', $query2.',)');
-    //return $db->exec($query);
     if ($db->connect_errno)
       {
         printf("Connect failed: %s\n", $db->connect_error);
         exit();
       }
-    $db->exec($query);
-    return $db->lastInsertRowID();
+    $db->query($query);
+    return mysqli_insert_id($db);
   }
 
 function easysql_mysql_update($array, $query='AND')
@@ -75,7 +71,7 @@ function easysql_mysql_update($array, $query='AND')
                 $query2array[] = $key." = '".$value."' ";
               }
           }
-          $query1 = 'UPDATE "'.$array[1].'" SET '.implode(', ', $query2array).' WHERE '.implode(' '.$query.' ', $query1array);
+          $query1 = 'UPDATE '.$array[1].' SET '.implode(', ', $query2array).' WHERE '.implode(' '.$query.' ', $query1array);
       }
     else
       {
@@ -86,7 +82,7 @@ function easysql_mysql_update($array, $query='AND')
         printf("Connect failed: %s\n", $db->connect_error);
         exit();
       }
-    $results = $db->exec($query1);
+    $results = $db->query($query1);
   }
 
 function easysql_mysql_select($array, $limit='no', $query='AND')
@@ -130,7 +126,7 @@ function easysql_mysql_select($array, $limit='no', $query='AND')
                     }
                 }
             }
-          $query1 = 'SELECT * FROM '.$array[1].' WHERE '.str_replace($query.' ,)', ';', $query1.',)');
+          $query1 = 'SELECT * FROM '.$array[1].' WHERE '.str_replace($query.' ,)', ' ', $query1.',)');
           if(is_int($limit))
             {
               $query1 .= ' LIMIT '.$limit.';';
@@ -140,18 +136,15 @@ function easysql_mysql_select($array, $limit='no', $query='AND')
       {
         $query1 = $query;
       }
-    //echo "\n".$query1."\n";
     if ($db->connect_errno)
       {
         printf("Connect failed: %s\n", $db->connect_error);
         exit();
       }
     $results = $db->query($query1);
-    //var_dump ($results);
     $i = 0;
     
-    
-    while ($row = $results->fetchArray())
+    while ($row = $results->fetch_array())
       {
         $return[$i] = $row;
         ++$i;
@@ -175,7 +168,6 @@ function easysql_mysql_export($array, $format='csv', $where='return')
       {
         while ($row = $results->fetchArray())
           {
-            //var_dump($row);
             foreach($row as $id => $result)
               {
                 if(is_int($id))
@@ -185,11 +177,9 @@ function easysql_mysql_export($array, $format='csv', $where='return')
                         ++$i;
                       }
                     $returnarray[$i][] = $result;
-                    //echo 'i: '.$i.' id: '.$id.' result: '.$result."\n";
                   }
               }
           }
-          //var_dump($returnarray);
         foreach ($returnarray as $line)
           {
             $return .= implode(";", $line)."\n";
