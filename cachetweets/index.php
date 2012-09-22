@@ -4,7 +4,6 @@ include_once ('./../notsoimportant.php');
 include_once ('./../easysql_sqlite.php');
 include_once ('./../crypto.php');
 
-
 $filenamedata = './../timeline.data.sqlite';
 
 if(!file_exists($filenamedata))
@@ -21,7 +20,6 @@ if(!file_exists($filenamedata))
 if($_GET['tweet'] != '')
   {
     include ('./twitter.php');
-    //$twitteraccount = 81907376;
     $twitteraccount = $_GET['tweet'];
     $filename       = './../timeline-'.$_GET['tweet'].'.sqlite';
     importtweets($twitteraccount, $filename);
@@ -43,33 +41,32 @@ if(isset($inserturl))
     $rowid = easysql_sqlite_insert($insert);
   }
 
+$getsorted[0] = $filename;
+$getsorted[1] = 'timeline';
+$limit = 32;
+if(isset($_GET['limit']))
+  {
+    $limit = ($_GET['limit']+1-1);
+  }
 
+$return = easysql_sqlite_getsorted($getsorted, $order = 'timestamp', $limit, $direction = 1);
+echo '<ol class="itemlist">'."\n";
 
-    $getsorted[0] = $filename;
-    $getsorted[1] = 'timeline';
-    $limit = 32;
-    if(isset($_GET['limit']))
+foreach ($return as $item)
+  {
+    $source = explode('|', $item['source'], 2);
+    echo '<li><a href="'.$item['sourceurl'].'"><img class="itemtype" src="./../img/'.$source[0].'.png"></a> ';
+    if($item['title'] == 'tweet')
       {
-        $limit = ($_GET['limit']+1-1);
+        echo urldecode($item['text']);
       }
-
-    $return = easysql_sqlite_getsorted($getsorted, $order = 'timestamp', $limit, $direction = 1);
-    echo '<ol class="itemlist">'."\n";
-    //  var_dump($return);
-    foreach ($return as $item)
+    else
       {
-        $source = explode('|', $item['source'], 2);
-        echo '<li><a href="'.$item['sourceurl'].'"><img class="itemtype" src="./../img/'.$source[0].'.png"></a> ';
-        if($item['title'] == 'tweet')
-          {
-            echo urldecode($item['text']);
-          }
-        else
-          {
-            echo $item['title'];
-          }
-        echo '</li>'."\n";
+        echo $item['title'];
       }
-    echo '</ol>';
+    echo '</li>'."\n";
+  }
+
+echo '</ol>';
 
 ?>

@@ -1,5 +1,4 @@
-easySQL
-=======
+#[easySQL](https://github.com/SimonWaldherr/easySQL)
 
 a php database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)
 
@@ -58,7 +57,7 @@ a php database wrapper for easy read and write actions on a sql db (SQLite, MySQ
 
 ###Info
 
-Demo: [here](http://simon.waldherr.eu/projects/easysql/)  
+Demo: [here](http://cdn.simon.waldherr.eu/projects/easysql/)  
 License: MIT  
-Version: 0.2  
-Date: June 2012
+Version: 0.3  
+Date: September 2012

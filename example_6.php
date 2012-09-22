@@ -118,4 +118,5 @@ echo '</tbody></table>';
 echo '<p>the last inserted row is: '.$rowid.'; </p>';
 
 echo '</body></html>';
+
 ?>

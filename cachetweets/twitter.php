@@ -83,8 +83,7 @@ function importtweets($twitteraccount, $filename)
         $maxmin[1] = 'timeline';
         $maxmin[2] = 'timestamp';
         $maxmin[3] = easysql_sqlite_maxmin($maxmin, "source =  'twitter|".$twitteraccount."'");
-        //echo 'Timestamp des letzten Eintrags: '.easysql_sqlite_maxmin($maxmin)."\n<br>";
-        //echo 'Datenbank enthält: '.easysql_sqlite_count(array($filename, 'timeline')).' Einträge'."\n<br>";
+        
         loadtweets($twitteraccount, $filename, $maxmin[3]);
       }
     else
@@ -104,10 +103,4 @@ function importtweets($twitteraccount, $filename)
       }
   }
 
-/*
-$twitteraccount = 81907376;
-$filename       = './../timeline.sqlite';
-
-importtweets($twitteraccount, $filename)
-*/
 ?>

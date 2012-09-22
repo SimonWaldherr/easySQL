@@ -10,7 +10,7 @@ function loadarticles($rssfeed, $filename, $lastarticle = 'false')
     if($xml = simplexml_load_file($rssfeed))
       {
         $xml = simplexml_load_file($rssfeed);
-        //$xml = str_replace("content:encoded","content",$xml);
+        
         foreach($xml->channel->item as $article)
           {
             $article_text = $article->description;
@@ -60,7 +60,6 @@ function loadarticles($rssfeed, $filename, $lastarticle = 'false')
 
 function importarticles($rssfeed, $filename)
   {
-    //$rssfeed = urldecode($rssfeed);
     if(file_exists($filename))
       {
         $maxmin[0] = $filename;
@@ -87,10 +86,5 @@ function importarticles($rssfeed, $filename)
         loadarticles($rssfeed, $filename);
       }
   }
-
-//$rssfeed  = 'http://cdn.simon.waldherr.eu/projects/easySQL/iphoneblog.xml';
-//$filename = './../timeline.sqlite';
-
-//importarticles($rssfeed, $filename);
 
 ?>

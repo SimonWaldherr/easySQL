@@ -40,4 +40,5 @@ echo str_replace("\n", "<br>", easysql_sqlite_export($export, 'csv'));
 
 echo ' <br><a href="./export.csv">open csv-file</a></p><!--';
 echo '--></body></html>';
+
 ?>

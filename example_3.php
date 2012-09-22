@@ -58,7 +58,6 @@ foreach($returnarray as $nr)
 	  {
 		if(is_string($key))
 		  {
-			//echo '<tr>';
 			if($key == 'emailadr')
 			  {
 				echo '<td class="esql'.$classcount.'">'.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string').'</td>'."\n";
@@ -75,4 +74,5 @@ foreach($returnarray as $nr)
 
 echo '</tbody></table>';
 echo '</body></html>';
+
 ?>

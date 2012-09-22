@@ -125,9 +125,7 @@ function easysql_sqlite_select($array, $limit='no', $query='AND', $other='')
       {
         $query1 = $query;
       }
-    //echo "\n".$query1."\n";
     $results = $db->query($query1.';');
-    //var_dump ($results);
     $i = 0;
     
     
@@ -180,7 +178,6 @@ function easysql_sqlite_export($array, $format='csv', $where='return')
       {
         while ($row = $results->fetchArray())
           {
-            //var_dump($row);
             foreach($row as $id => $result)
               {
                 if(is_int($id))
@@ -190,11 +187,9 @@ function easysql_sqlite_export($array, $format='csv', $where='return')
                         ++$i;
                       }
                     $returnarray[$i][] = $result;
-                    //echo 'i: '.$i.' id: '.$id.' result: '.$result."\n";
                   }
               }
           }
-          //var_dump($returnarray);
         foreach ($returnarray as $line)
           {
             $return .= implode(";", $line)."\n";

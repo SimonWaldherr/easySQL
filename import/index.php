@@ -4,7 +4,6 @@ include_once ('./../notsoimportant.php');
 include_once ('./../easysql_sqlite.php');
 include_once ('./../crypto.php');
 
-
 $filenamedata = './../timeline.data.sqlite';
 
 if(!file_exists($filenamedata))
@@ -21,7 +20,7 @@ if(!file_exists($filenamedata))
 if($_GET['tweet'] != '')
   {
     include ('./twitter.php');
-    //$twitteraccount = 81907376;
+    
     $twitteraccount = $_GET['tweet'];
     $filename       = './../timeline.sqlite';
     importtweets($twitteraccount, $filename);
@@ -32,10 +31,6 @@ if($_GET['tweet'] != '')
 if($_GET['feed'] != '')
   {
     include ('./rss.php');
-    //$rssfeed  = 'http://cdn.simon.waldherr.eu/projects/easySQL/iphoneblog.xml';
-    //             http://startup.simon.waldherr.eu/feeds/posts/default
-    
-    //var_dump($_GET);
     
     $rssfeed  = urldecode($_GET['feed']);
     echo $rssfeed;

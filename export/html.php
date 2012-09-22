@@ -31,35 +31,38 @@
     </style>
 </head>
 <body>
-    <?php
-    include_once ('./../notsoimportant.php');
-    include_once ('./../easysql_sqlite.php');
-    include_once ('./../crypto.php');
-    
-    $filename = './../timeline.sqlite';
-    
-    $getsorted[0] = $filename;
-    $getsorted[1] = 'timeline';
-    if()
-    $return = easysql_sqlite_getsorted($getsorted, $order = 'timestamp', $limit = 128, $direction = 1);
-    echo '<ol class="itemlist">'."\n";
-    //  var_dump($return);
-    foreach ($return as $item)
-      {
-        $source = explode('|', $item['source'], 2);
-        echo '<li><a href="'.$item['sourceurl'].'"><img class="itemtype" src="./../img/'.$source[0].'.png"></a> ';
-        if($item['title'] == 'tweet')
-          {
-            echo urldecode($item['text']);
-          }
-        else
-          {
-            echo $item['title'];
-          }
-        echo '</li>'."\n";
-      }
-    echo '<li><a href="?limit=no">load more ...</a></li>';
-    echo '</ol>';
-    ?>
+<?php
+
+  include_once ('./../notsoimportant.php');
+  include_once ('./../easysql_sqlite.php');
+  include_once ('./../crypto.php');
+  
+  $filename = './../timeline.sqlite';
+  
+  $getsorted[0] = $filename;
+  $getsorted[1] = 'timeline';
+  
+  $return = easysql_sqlite_getsorted($getsorted, $order = 'timestamp', $limit = 128, $direction = 1);
+  echo '<ol class="itemlist">'."\n";
+  
+  foreach ($return as $item)
+    {
+      $source = explode('|', $item['source'], 2);
+      echo '<li><a href="'.$item['sourceurl'].'"><img class="itemtype" src="./../img/'.$source[0].'.png"></a> ';
+      if($item['title'] == 'tweet')
+        {
+          echo urldecode($item['text']);
+        }
+      else
+        {
+          echo $item['title'];
+        }
+      echo '</li>'."\n";
+    }
+  
+  echo '<li><a href="?limit=no">load more ...</a></li>';
+  echo '</ol>';
+
+?>
 </body>
 </html>

@@ -130,4 +130,5 @@ else
 echo ' <br><a href="./export.csv">open csv-file</a></p><!--';
   var_dump($returnarray);
 echo '--></body></html>';
+
 ?>
