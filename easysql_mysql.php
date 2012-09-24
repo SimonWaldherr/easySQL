@@ -156,6 +156,11 @@ function easysql_mysql_getsorted($array, $order = '', $limit = '', $direction = 
   {
     $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
     $query = 'SELECT * FROM '.$array[1];
+    if ($db->connect_errno)
+      {
+        printf("Connect failed: %s\n", $db->connect_error);
+        exit();
+      }
     if($order != '')
       {
         $query .= ' ORDER BY '.$order;
