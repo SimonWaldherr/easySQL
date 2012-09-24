@@ -30,13 +30,11 @@ function loadtweets($twitteraccount, $filename, $lasttweet = 'false', $data = 't
             foreach($xml->channel->item as $tweet)
               {
                 $tweet_text = $tweet->description;
-                //$tweet_text = substr(strstr($tweet_text, ': '), 2, strlen($tweet_text));
-                //$tweet_text = substr($tweet_text, strpos($tweet_text, ':'), strlen($tweet_text));
                 $tweet_text = explode(':', $tweet_text, 2);
                 $tweet_text = preg_replace($urlregex[0], $urlregex[1], $tweet_text[1].' ');
                 $tweet_text = preg_replace('@(?<![.*">])\b(?:(?:https?|ftp|file)://|[a-z]\.)[-A-Z0-9+&#/%=~_|$?!:,.]*[A-Z0-9+&#/%=~_|$]@i', '<a href="\0" target="_blank">\0</a>', $tweet_text);
-                $tweet_text = preg_replace('(@([a-zA-Z0-9_]+))', "<a href='http://www.twitter.com/\$1'>\$0</a>", $tweet_text);
-                $tweet_text = urlencode(preg_replace('(#([a-zA-Z0-9_-äüöß-]+))', "<a href='http://search.twitter.com/search?q=%23\$1'>#\$1</a>", $tweet_text));
+                $tweet_text = preg_replace('(@([a-zA-Z0-9_]+))', "<a href='http://www.twitter.com/\$1' class='twuser'>\$0</a>", $tweet_text);
+                $tweet_text = urlencode(preg_replace('(#([a-zA-Z0-9_-äüöß-]+))', "<a href='http://search.twitter.com/search?q=%23\$1' class='twtag'>#\$1</a>", $tweet_text));
                 
                 $insert[0]           = $filename;
                 $insert[1]           = 'timeline';

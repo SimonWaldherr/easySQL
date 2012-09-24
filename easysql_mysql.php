@@ -152,6 +152,36 @@ function easysql_mysql_select($array, $limit='no', $query='AND')
     return $return;
   }
 
+function easysql_mysql_getsorted($array, $order = '', $limit = '', $direction = '')
+  {
+    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $query = 'SELECT * FROM '.$array[1];
+    if($order != '')
+      {
+        $query .= ' ORDER BY '.$order;
+        if($direction)
+          {
+            $query .= ' DESC';
+          }
+      }
+  
+    if(is_int($limit))
+      {
+        $query .= ' LIMIT '.$limit.';';
+      }
+    
+    $results = $db->query($query.';');
+    $i = 0;
+    
+    
+    while ($row = $results->fetch_array())
+      {
+        $return[$i] = $row;
+        ++$i;
+      }
+    return $return;
+  }
+
 function easysql_mysql_export($array, $format='csv', $where='return')
   {
     $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
@@ -213,6 +243,28 @@ function easysql_mysql_export($array, $format='csv', $where='return')
           }
         return $success;
       }
+  }
+
+function easysql_mysql_count($array)
+  {
+    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $query1 = "SELECT count(id) FROM $array[1] LIMIT 1";
+    $results = $db->query($query1);
+    return $results;
+  }
+
+function easysql_mysql_maxmin($array, $where='')
+  {
+    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $query1 = 'SELECT max('.$array[2].') FROM '.$array[1];
+    if($where != '')
+      {
+        $query1 = $query1.' WHERE '.$where;
+      }
+    $results = $db->query($query1);
+    $row = $results->fetch_array();
+
+    return $row[0];
   }
 
 ?>

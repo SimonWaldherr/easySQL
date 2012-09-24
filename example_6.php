@@ -1,91 +1,67 @@
 <?php
 
-include_once ('./notsoimportant.php');
-include_once ('./easysql_sqlite.php');
-include_once ('./crypto.php');
+  include_once ('./notsoimportant.php');
+  include_once ('./easysql_mysql.php');
+  include_once ('./crypto.php');
+  include_once ('./mysql-config.php');
 
+  $create = $mysqlarray;
+  $create['id'] = 'integer NOT NULL AUTO_INCREMENT PRIMARY KEY';
+  $create['username'] = 'varchar(255) NOT NULL';
+  $create['password'] = 'varchar(255) NOT NULL';
+  $create['emailadr'] = 'varchar(255) NOT NULL';
+  $create['timestam'] = 'integer';
+  $create['vcounter'] = 'smallint';
+  $create['sessioni'] = 'varchar(255)';
+  easysql_mysql_create($create);
 
-$create[0] = './analytics.sql';
-$create[1] = 'analytics';
-if(!file_exists($create[0]))
-  {
-    
-    $create['id']             = 'integer PRIMARY KEY AUTOINCREMENT';
-    $create['timestam']       = 'integer';
-    $create['browser']        = 'varchar';
-    $create['browserversion'] = 'integer';
-    $create['platform']       = 'varchar';
-    $create['cssversion']     = 'smallint';
-    $create['javascript']     = 'bit';
-    $create['java']           = 'bit';
-    $create['activex']        = 'bit';
-    $create['crawler']        = 'bit';
-    
-    easysql_sqlite_create($create);
-  }
+  $select = $mysqlarray;
+  $select['id'] = '>;'.($rowid-5).'||'.($rowid-15);
+  $returnarray = easysql_mysql_select($select, 6);
 
-echo $_SERVER['HTTP_USER_AGENT'];
-$browserinfo = get_browser($_SERVER['HTTP_USER_AGENT'], true);
-
-var_dump($browserinfo);
-
-$insert[0]                = $create[0];
-$insert[1]                = $create[1];
-$insert['timestam']       = time();
-$insert['browser']        = $browserinfo['browser'];
-$insert['browserversion'] = $browserinfo['version'];
-$insert['platform']       = $browserinfo['platform'];
-$insert['cssversion']     = $browserinfo['cssversion'];
-$insert['javascript']     = $browserinfo['javascript'];
-$insert['java']           = $browserinfo['javaapplets'];
-$insert['activex']        = $browserinfo['activexcontrols'];
-$insert['crawler']        = $browserinfo['crawler'];
-
-$rowid = easysql_sqlite_insert($insert);
-
-$select[0] = $create[0];
-$select[1] = $create[1];
-
-$returnarray = easysql_sqlite_getsorted($select, $order = 'timestam', $limit = 'no', $direction = 1);
+  $sorted    = $mysqlarray;
+  $getsorted = easysql_mysql_getsorted($sorted, 'vcounter', 1, true);
 
 ?><html>
 <head>
-<title>easySQL Example 1</title>
+<title>easySQL Example 6 (MySQL)</title>
 <style>
+
 thead{
   background: #ccc;
 }
-td{
-  padding: 8px;
-  background: #aaa;
-  overflow: hidden;
-}
 
-.esql2{
-  width:50px;
-}
-.esql6{
-  max-width: 360px;
-}
-.esql14{
-  max-width: 500px;
-}
+  td{
+    padding: 8px;
+    background: #aaa;
+    overflow: hidden;
+  }
+
+  .esql2{
+    width:50px;
+  }
+
+  .esql6{
+    max-width: 360px;
+  }
+
+  .esql14{
+    max-width: 500px;
+  }
+
 </style>
 </head>
 <body>
   <table>
   <thead>
     <tr>
-      <td>id</td>
-      <td>timestam</td>
-      <td>browser</td>
-      <td>browserversion</td>
-      <td>platform</td>
-      <td>cssversion</td>
-      <td>javascript</td>
-      <td>java</td>
-      <td>activex</td>
-      <td>crawler</td>
+    <td>Nr.</td>
+    <td>Name</td>
+    <td>Password</td>
+    <td>eMail</td>
+    <td>timestamp</td>
+    <td>visits</td>
+    <td>session id</td>
     </tr>
   </thead>
   <tbody>
@@ -99,7 +75,6 @@ foreach($returnarray as $nr)
     {
     if(is_string($key))
       {
-      //echo '<tr>';
       if($key == 'emailadr')
         {
         echo '<td class="esql'.$classcount.'">'.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string').'</td>'."\n";
@@ -115,8 +90,11 @@ foreach($returnarray as $nr)
   }
 
 echo '</tbody></table>';
-echo '<p>the last inserted row is: '.$rowid.'; </p>';
 
-echo '</body></html>';
+echo nl2br(print_r($getsorted, 1));
+
+echo ' <br><!--';
+  var_dump($returnarray);
+echo '--></body></html>';
 
 ?>
