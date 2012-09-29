@@ -1,0 +1,139 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>easySQL</title>
+  <meta name="description" content="a database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">easySQL</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">a database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/SimonWaldherr/easySQL/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/SimonWaldherr/easySQL/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/SimonWaldherr/easySQL" class="code">View easySQL on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h1><a href="https://github.com/SimonWaldherr/easySQL">easySQL</a></h1>
+
+<p>a php database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)</p>
+
+<h2>Create Database/Table</h2>
+
+<pre><code>//sqlite:
+    $array[0] = './path/to/sqliteDB.sql';
+    $array[1] = 'tablename';
+
+//mysql:
+    $array[0][0] = 'server.tld';
+    $array[0][1] = 'username';
+    $array[0][2] = 'password';
+    $array[1] = 'tablename';
+
+$array['id'] = 'integer PRIMARY KEY AUTOINCREMENT';
+$array['username'] = 'varchar NOT NULL UNIQUE';
+$array['password'] = 'varchar NOT NULL';
+$array['column'] = '...'; // constraints
+
+easysql_sqlite_create($array);
+</code></pre>
+
+<h2>Insert</h2>
+
+<pre><code>$array[0] = './path/to/sqliteDB.sql';
+$array[1] = 'tablename';
+$array['username'] = 'John Doe';
+$array['password'] = 'lorem ipsum';
+$array['column'] = '...';
+
+easysql_sqlite_create($array);
+</code></pre>
+
+<h2>Update</h2>
+
+<pre><code>$array[0] = './path/to/sqliteDB.sql';
+$array[1] = 'tablename';
+$array[2]['id'] = 1337;
+$array[3]['password'] = 'new_password';
+
+easysql_sqlite_update($array);
+</code></pre>
+
+<h2>Select</h2>
+
+<pre><code>$array[0] = './path/to/sqliteDB.sql';
+$array[1] = 'tablename';
+$array['id'] = '3';
+
+var_dump(easysql_sqlite_select($array));
+</code></pre>
+
+<h2>Export</h2>
+
+<pre><code>$array[0] = './path/to/sqliteDB.sql';
+$array[1] = 'tablename';
+
+easysql_sqlite_export($export, 'csv', './file.csv');
+</code></pre>
+
+<h3>Info</h3>
+
+<p>Demo: <a href="http://cdn.simon.waldherr.eu/projects/easySQL/">here</a><br>
+License: MIT<br>
+Version: 0.3<br>
+Date: September 2012</p>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/SimonWaldherr" class="avatar"><img src="https://secure.gravatar.com/avatar/c722b17a21e301d3845be2b438b0aeea?s=30&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png" width="48" height="48"/></a> <a href="https://github.com/SimonWaldherr">SimonWaldherr</a> maintains <a href="https://github.com/SimonWaldherr/easySQL">easySQL</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="http://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/SimonWaldherr/easySQL/tarball/master" class="tar">tar</a><a href="https://github.com/SimonWaldherr/easySQL/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-33526676-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+</body>
+</html>
