@@ -6,39 +6,44 @@ include_once ('./../crypto.php');
 
 $filenamedata = './../timeline.data.sqlite';
 
-if(!file_exists($filenamedata))
-  {
-    $create[0]           = $filenamedata;
-    $create[1]           = 'data';
-    $create['id']        = 'integer PRIMARY KEY AUTOINCREMENT';
-    $create['source']    = 'varchar NOT NULL';
-    $create['sourceurl'] = 'varchar NOT NULL';
-    $create['fetchtime'] = 'integer';
-    easysql_sqlite_create($create);
-  }
+$twitteraccount = $_GET['tweet'];
+$filename       = './../timeline-'.$_GET['tweet'].'.sqlite';
 
-if($_GET['tweet'] != '')
+if(($_GET['update'] !== 'no')&&($_GET['update'] !== 'false')&&($_GET['update'] !== '0'))
   {
-    include ('./twitter.php');
-    $twitteraccount = $_GET['tweet'];
-    $filename       = './../timeline-'.$_GET['tweet'].'.sqlite';
-    importtweets($twitteraccount, $filename);
+    if(!file_exists($filenamedata))
+      {
+        $create[0]           = $filenamedata;
+        $create[1]           = 'data';
+        $create['id']        = 'integer PRIMARY KEY AUTOINCREMENT';
+        $create['source']    = 'varchar NOT NULL';
+        $create['sourceurl'] = 'varchar NOT NULL';
+        $create['fetchtime'] = 'integer';
+        easysql_sqlite_create($create);
+      }
     
-    $insertsource = 'twitter';
-    $inserturl    = $_GET['tweet'];
-  }
-
-if(isset($inserturl))
-  {
-    $rand = rand(1,50000);
-    $insert[0]            = $filenamedata;
-    $insert[1]            = 'data';
-    $insert['source']     = $insertsource;
-    $insert['sourceurl']  = $inserturl;
-    $insert['fetchtime']  = time();
+    if($_GET['tweet'] != '')
+      {
+        include ('./twitter.php');
+        
+        importtweets($twitteraccount, $filename);
+        
+        $insertsource = 'twitter';
+        $inserturl    = $_GET['tweet'];
+      }
     
-    
-    $rowid = easysql_sqlite_insert($insert);
+    if(isset($inserturl))
+      {
+        $rand = rand(1,50000);
+        $insert[0]            = $filenamedata;
+        $insert[1]            = 'data';
+        $insert['source']     = $insertsource;
+        $insert['sourceurl']  = $inserturl;
+        $insert['fetchtime']  = time();
+        
+        
+        $rowid = easysql_sqlite_insert($insert);
+      }
   }
 
 $getsorted[0] = $filename;
@@ -55,7 +60,7 @@ echo '<ol class="itemlist">'."\n";
 foreach ($return as $item)
   {
     $source = explode('|', $item['source'], 2);
-    echo '<li><a href="'.$item['sourceurl'].'"><img class="itemtype" src="./../img/'.$source[0].'.png"></a> ';
+    echo '<li><a href="'.$item['sourceurl'].'"><img style="height:16px;" class="itemtype" src="./../img/'.$source[0].'.png"></a> ';
     if($item['title'] == 'tweet')
       {
         echo urldecode($item['text']);
