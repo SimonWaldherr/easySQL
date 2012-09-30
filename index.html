@@ -68,7 +68,7 @@ $array['username'] = 'John Doe';
 $array['password'] = 'lorem ipsum';
 $array['column'] = '...';
 
-easysql_sqlite_create($array);
+easysql_sqlite_insert($array);
 </code></pre>
 
 <h2>Update</h2>
@@ -95,14 +95,22 @@ var_dump(easysql_sqlite_select($array));
 <pre><code>$array[0] = './path/to/sqliteDB.sql';
 $array[1] = 'tablename';
 
-easysql_sqlite_export($export, 'csv', './file.csv');
+easysql_sqlite_export($array, 'csv', './file.csv');
+</code></pre>
+
+<h2>Sorted</h2>
+
+<pre><code>$array[0] = './path/to/sqliteDB.sql';
+$array[1] = 'tablename';
+
+var_dump(easysql_sqlite_getsorted($array, 'id', 1, true));
 </code></pre>
 
 <h3>Info</h3>
 
 <p>Demo: <a href="http://cdn.simon.waldherr.eu/projects/easySQL/">here</a><br>
 License: MIT<br>
-Version: 0.3<br>
+Version: 0.4<br>
 Date: September 2012</p>
         </article>
       </div>
