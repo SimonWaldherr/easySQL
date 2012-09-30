@@ -7,7 +7,7 @@
  * Repo: https://github.com/SimonWaldherr/easySQL
  * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
  * License: MIT
- * Version: 0.4
+ * Version: 0.4.1
  *
  */
 
@@ -87,35 +87,32 @@ thead{
 
 foreach($returnarray as $nr)
   {
-  echo '<tr>';
-  $classcount = 1;
-  foreach($nr as $key => $value)
-    {
-    if(is_string($key))
+    echo '<tr>';
+    $classcount = 1;
+    foreach($nr as $key => $value)
       {
-      if($key == 'emailadr')
-        {
-        echo '<td class="esql'.$classcount.'">'.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string').'</td>'."\n";
-        }
-      else
-        {
-        echo '<td class="esql'.$classcount.'">'.$value.'</td>'."\n";
-        }
+        if(is_string($key))
+          {
+            if($key == 'emailadr')
+              {
+                echo '<td class="esql'.$classcount.'">'.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string').'</td>'."\n";
+              }
+            else
+              {
+                echo '<td class="esql'.$classcount.'">'.$value.'</td>'."\n";
+              }
+          }
+        $classcount++;
       }
-    $classcount++;
-    }
-  echo '</tr>';
+    echo '</tr>';
   }
 
 echo '</tbody></table>';
 
-//echo nl2br(print_r($getsorted, 1));
-
 echo ' <br><!--';
-  //var_dump($returnarray);
-  //var_dump($getsorted);
-  echo print_r($returnarray, 1);
-  echo print_r($getsorted, 1);
-echo '--></body></html>';
+echo print_r($returnarray, 1);
+echo print_r($getsorted, 1);
+echo '-->';
 
 ?>
+</body></html>

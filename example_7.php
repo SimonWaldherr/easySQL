@@ -7,7 +7,7 @@
  * Repo: https://github.com/SimonWaldherr/easySQL
  * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
  * License: MIT
- * Version: 0.4
+ * Version: 0.4.1
  *
  */
 
@@ -40,9 +40,6 @@
   //$sorted    = $mysqlarray;
   $getsorted3 = easysql_mysql_getsorted($sorted, 'vcounter', 1, true);
   $returnarray[] = $getsorted3[0];
-
-//print_r($returnarray);
-//die();
 
 ?><html>
 <head>
@@ -91,35 +88,34 @@ thead{
 
 foreach($returnarray as $nr)
   {
-  echo '<tr>';
-  $classcount = 1;
-  foreach($nr as $key => $value)
-    {
-    if(is_string($key))
+    echo '<tr>';
+    $classcount = 1;
+    foreach($nr as $key => $value)
       {
-      if($key == 'emailadr')
-        {
-        echo '<td class="esql'.$classcount.'">'.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string').'</td>'."\n";
-        }
-      else
-        {
-        echo '<td class="esql'.$classcount.'">'.$value.'</td>'."\n";
-        }
+        if(is_string($key))
+          {
+            if($key == 'emailadr')
+              {
+                echo '<td class="esql'.$classcount.'">'.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string').'</td>'."\n";
+              }
+            else
+              {
+                echo '<td class="esql'.$classcount.'">'.$value.'</td>'."\n";
+              }
+            }
+        $classcount++;
       }
-    $classcount++;
-    }
-  echo '</tr>';
+    echo '</tr>';
   }
 
 echo '</tbody></table>';
 
-//echo nl2br(print_r($getsorted, 1));
-
 echo ' <br><!--';
-  print("\n".'$create:'."\n");
-  echo print_r($create, 1);
-  print("\n".'$returnarray:'."\n");
-  echo print_r($returnarray, 1);
-echo '--></body></html>';
+print("\n".'$create:'."\n");
+echo print_r($create, 1);
+print("\n".'$returnarray:'."\n");
+echo print_r($returnarray, 1);
+echo '-->';
 
 ?>
+</body></html>

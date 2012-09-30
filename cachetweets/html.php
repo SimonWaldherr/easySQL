@@ -43,7 +43,6 @@
 
     $return = easysql_sqlite_getsorted($getsorted, $order = 'timestamp', $limit = 128, $direction = 1);
     echo '<ol class="itemlist">'."\n";
-    //  var_dump($return);
     foreach ($return as $item)
       {
         $source = explode('|', $item['source'], 2);

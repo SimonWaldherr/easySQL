@@ -7,7 +7,7 @@
  * Repo: https://github.com/SimonWaldherr/easySQL
  * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
  * License: MIT
- * Version: 0.4
+ * Version: 0.4.1
  *
  */
 
@@ -62,22 +62,22 @@ $returnarray = easysql_sqlite_select($select, 6);
 <title>easySQL Example 1 (SQLite)</title>
 <style>
 thead{
-	background: #ccc;
+  background: #ccc;
 }
 td{
-	padding: 8px;
-	background: #aaa;
-	overflow: hidden;
+  padding: 8px;
+  background: #aaa;
+  overflow: hidden;
 }
 
 .esql2{
-	width:50px;
+  width:50px;
 }
 .esql6{
-	max-width: 360px;
+  max-width: 360px;
 }
 .esql14{
-	max-width: 500px;
+  max-width: 500px;
 }
 </style>
 </head>
@@ -99,25 +99,24 @@ td{
 
 foreach($returnarray as $nr)
   {
-	echo '<tr>';
-	$classcount = 1;
-	foreach($nr as $key => $value)
-	  {
-		if(is_string($key))
-		  {
-			//echo '<tr>';
-			if($key == 'emailadr')
-			  {
-				echo '<td class="esql'.$classcount.'">'.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string').'</td>'."\n";
-			  }
-			else
-			  {
-				echo '<td class="esql'.$classcount.'">'.$value.'</td>'."\n";
-			  }
-		  }
-		$classcount++;
-	  }
-	echo '</tr>';
+    echo '<tr>';
+    $classcount = 1;
+    foreach($nr as $key => $value)
+      {
+        if(is_string($key))
+          {
+            if($key == 'emailadr')
+              {
+                echo '<td class="esql'.$classcount.'">'.easysql_decrypt(easysql_hex2raw($value), 'this is the secret to encrypt the string').'</td>'."\n";
+              }
+            else
+              {
+                echo '<td class="esql'.$classcount.'">'.$value.'</td>'."\n";
+              }
+          }
+        $classcount++;
+      }
+    echo '</tr>';
   }
 
 echo '</tbody></table>';
@@ -144,7 +143,8 @@ else
   }
 
 echo ' <br><a href="./export.csv">open csv-file</a></p><!--';
-  var_dump($returnarray);
-echo '--></body></html>';
+echo print_r($returnarray, 1);
+echo '-->';
 
 ?>
+</body></html>

@@ -52,7 +52,6 @@ if(isset($inserturl))
     $insert['sourceurl']  = $inserturl;
     $insert['fetchtime']  = time();
     
-    
     $rowid = easysql_sqlite_insert($insert);
   }
 
