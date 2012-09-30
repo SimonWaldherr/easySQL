@@ -1,5 +1,17 @@
 <?php
 
+/*
+ *
+ * easySQL
+ * 
+ * Repo: https://github.com/SimonWaldherr/easySQL
+ * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
+ * License: MIT
+ * Version: 0.4
+ *
+ */
+
+
 function easysql_encrypt($str, $key)
   {
     $block = mcrypt_get_block_size('des', 'ecb');

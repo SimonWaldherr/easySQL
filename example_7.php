@@ -27,32 +27,26 @@
   $create['sessioni'] = 'varchar(255)';
   easysql_mysql_create($create);
 
-  $rand = rand(1,50000);
+  $returnarray = array();
 
-  $insert = $mysqlarray;
-  $insert['username'] = 'John Doe '.$rand;
-  $insert['password'] = easysql_hashmix($rand);
-  $insert['emailadr'] = easysql_raw2hex(easysql_encrypt('john.doe.'.$rand.'@gmail.com', 'this is the secret to encrypt the string'));
-  $insert['timestam'] = time();
-  $insert['vcounter'] = $_SESSION['count'];
-  $insert['sessioni'] = session_id();
-  $rowid = easysql_mysql_insert($insert);
+  $sorted    = $mysqlarray;
+  $getsorted1 = easysql_mysql_getsorted($sorted, 'id', 1, true);
+  $returnarray[] = $getsorted1[0];
 
-  $updaterow = ($rowid-rand(1,4));
-  $update = $mysqlarray;
-  $update[2]['id'] = $updaterow;
-  $update[3]['password'] = easysql_hashmix(md5('new_password'.$update[2]['id'].rand(111,999)));
-  $update[3]['timestam'] = time();
-  $update[3]['vcounter'] = $_SESSION['count'];
-  easysql_mysql_update($update);
+  //$sorted    = $mysqlarray;
+  $getsorted2 = easysql_mysql_getsorted($sorted, 'timestam', 1, true);
+  $returnarray[] = $getsorted2[0];
 
-  $select = $mysqlarray;
-  $select['id'] = '>;'.($rowid-5).'||'.($rowid-15);
-  $returnarray = easysql_mysql_select($select, 6);
+  //$sorted    = $mysqlarray;
+  $getsorted3 = easysql_mysql_getsorted($sorted, 'vcounter', 1, true);
+  $returnarray[] = $getsorted3[0];
+
+//print_r($returnarray);
+//die();
 
 ?><html>
 <head>
-<title>easySQL Example 5 (MySQL)</title>
+<title>easySQL Example 6 (MySQL)</title>
 <style>
 
 thead{
@@ -118,29 +112,14 @@ foreach($returnarray as $nr)
   }
 
 echo '</tbody></table>';
-echo '<p>the last inserted row is: '.$rowid.'; </p>';
-echo '<p>the last updated row is: '.$updaterow.'; </p><p>';
 
-if((!($rowid%10))OR($rowid<10))
-  {
-    $export = $mysqlarray;
+//echo nl2br(print_r($getsorted, 1));
 
-    if(easysql_mysql_export($export, 'csv', './export.csv'))
-      {
-        echo 'data export successfull';
-      }
-    else
-      {
-        echo 'error on data export';
-      }
-  }
-else
-  {
-    echo 'export is not necessary';
-  }
-
-echo ' <br><a href="./export.csv">open csv-file</a></p><!--';
-  var_dump($returnarray);
+echo ' <br><!--';
+  print("\n".'$create:'."\n");
+  echo print_r($create, 1);
+  print("\n".'$returnarray:'."\n");
+  echo print_r($returnarray, 1);
 echo '--></body></html>';
 
 ?>

@@ -1,5 +1,17 @@
 <?php
 
+/*
+ *
+ * easySQL
+ * 
+ * Repo: https://github.com/SimonWaldherr/easySQL
+ * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
+ * License: MIT
+ * Version: 0.4
+ *
+ */
+
+
 function easysql_sqlite_create($array)
   {
     $db = new SQLite3($array[0]);

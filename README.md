@@ -29,7 +29,7 @@ a php database wrapper for easy read and write actions on a sql db (SQLite, MySQ
 	$array['password'] = 'lorem ipsum';
 	$array['column'] = '...';
 	
-	easysql_sqlite_create($array);
+	easysql_sqlite_insert($array);
 
 ##Update
 
@@ -53,11 +53,18 @@ a php database wrapper for easy read and write actions on a sql db (SQLite, MySQ
 	$array[0] = './path/to/sqliteDB.sql';
 	$array[1] = 'tablename';
 	
-	easysql_sqlite_export($export, 'csv', './file.csv');
+	easysql_sqlite_export($array, 'csv', './file.csv');
+
+##Sorted
+
+	$array[0] = './path/to/sqliteDB.sql';
+	$array[1] = 'tablename';
+	
+	var_dump(easysql_sqlite_getsorted($array, 'id', 1, true));
 
 ###Info
 
 Demo: [here](http://cdn.simon.waldherr.eu/projects/easySQL/)  
 License: MIT  
-Version: 0.3  
+Version: 0.4  
 Date: September 2012

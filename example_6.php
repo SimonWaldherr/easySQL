@@ -1,5 +1,17 @@
 <?php
 
+/*
+ *
+ * easySQL
+ * 
+ * Repo: https://github.com/SimonWaldherr/easySQL
+ * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
+ * License: MIT
+ * Version: 0.4
+ *
+ */
+
+
   include_once ('./notsoimportant.php');
   include_once ('./easysql_mysql.php');
   include_once ('./crypto.php');
@@ -15,12 +27,18 @@
   $create['sessioni'] = 'varchar(255)';
   easysql_mysql_create($create);
 
+  $sorted    = $mysqlarray;
+  $lastrowid = easysql_mysql_getsorted($sorted, 'id', 1, true);
+  $lastrowid = $lastrowid[0]['id'];
+  
+  $getsorted = easysql_mysql_getsorted($sorted, 'vcounter', 1, true);
+
   $select = $mysqlarray;
-  $select['id'] = '>;'.($rowid-5).'||'.($rowid-15);
+  $select['id'] = '>;'.($lastrowid-5);
   $returnarray = easysql_mysql_select($select, 6);
 
-  $sorted    = $mysqlarray;
-  $getsorted = easysql_mysql_getsorted($sorted, 'vcounter', 1, true);
+  $returnarray[] = $getsorted[0];
+
 
 ?><html>
 <head>
@@ -91,10 +109,13 @@ foreach($returnarray as $nr)
 
 echo '</tbody></table>';
 
-echo nl2br(print_r($getsorted, 1));
+//echo nl2br(print_r($getsorted, 1));
 
 echo ' <br><!--';
-  var_dump($returnarray);
+  //var_dump($returnarray);
+  //var_dump($getsorted);
+  echo print_r($returnarray, 1);
+  echo print_r($getsorted, 1);
 echo '--></body></html>';
 
 ?>

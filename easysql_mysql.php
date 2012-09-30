@@ -1,5 +1,17 @@
 <?php
 
+/*
+ *
+ * easySQL
+ * 
+ * Repo: https://github.com/SimonWaldherr/easySQL
+ * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
+ * License: MIT
+ * Version: 0.4
+ *
+ */
+
+
 function easysql_mysql_create($array)
   {
     $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
@@ -154,11 +166,14 @@ function easysql_mysql_select($array, $limit='no', $query='AND')
 
 function easysql_mysql_getsorted($array, $order = '', $limit = '', $direction = '')
   {
-    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    //$db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
     $query = 'SELECT * FROM '.$array[1];
-    if ($db->connect_errno)
+    //if ($db->connect_errno)
+    if (mysqli_errno($db))
       {
-        printf("Connect failed: %s\n", $db->connect_error);
+        //printf("Connect failed: %s\n", $db->connect_error);
+        printf("Connect failed: %s\n", mysqli_errno($db));
         exit();
       }
     if($order != '')
@@ -175,11 +190,13 @@ function easysql_mysql_getsorted($array, $order = '', $limit = '', $direction = 
         $query .= ' LIMIT '.$limit.';';
       }
     
-    $results = $db->query($query.';');
+    //$results = $db->query($query.';');
+    $results = mysqli_query($db, $query.';');
     $i = 0;
     
     
-    while ($row = $results->fetch_array())
+    //while ($row = $results->fetch_array())
+    while ($row = mysqli_fetch_array($results))
       {
         $return[$i] = $row;
         ++$i;

@@ -1,6 +1,18 @@
 <?php
 
-Header('X-Powered-By:inets/5.5.2');
+/*
+ *
+ * easySQL
+ * 
+ * Repo: https://github.com/SimonWaldherr/easySQL
+ * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
+ * License: MIT
+ * Version: 0.4
+ *
+ */
+
+
+Header('X-Powered-By:0xBADCAB1E');
 ini_set('session.hash_function', 'whirlpool');
 ini_set('session.name', 'sess');
 ini_set('session.cookie_lifetime', '0');

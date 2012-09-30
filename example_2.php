@@ -1,5 +1,17 @@
 <?php
 
+/*
+ *
+ * easySQL
+ * 
+ * Repo: https://github.com/SimonWaldherr/easySQL
+ * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
+ * License: MIT
+ * Version: 0.4
+ *
+ */
+
+
 include_once ('./notsoimportant.php');
 include_once ('./easysql_sqlite.php');
 include_once ('./crypto.php');
