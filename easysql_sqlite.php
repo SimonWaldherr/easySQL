@@ -80,6 +80,7 @@ function easysql_sqlite_update($array, $query='AND')
         $query1 = $query;
       }
     $results = $db->exec($query1);
+    return $results;
   }
 
 function easysql_sqlite_select($array, $limit='no', $query='AND', $other='')
