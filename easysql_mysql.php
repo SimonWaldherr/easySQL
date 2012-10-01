@@ -14,7 +14,7 @@
 
 function easysql_mysql_create($array)
   {
-    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
     
     $query = 'CREATE TABLE '.$array[1].' (';
     foreach($array as $key => $value)
@@ -24,18 +24,18 @@ function easysql_mysql_create($array)
             $query .= ' `'.$key.'` '.$value.',';
           }
       }
-    if ($db->connect_errno)
+    if (mysqli_errno($db))
       {
-        printf("Connect failed: %s\n", $db->connect_error);
+        printf("Connect failed: %s\n", mysqli_errno($db));
         exit();
       }
     $query = str_replace(',,)', ')', $query.',)');
-    return $db->query($query);
+    return mysqli_query($db, $query);
   }
 
 function easysql_mysql_insert($array)
   {
-    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
     $query1 = 'INSERT INTO '.$array[1].' (';
     $query2 = 'VALUES (';
     foreach($array as $key => $value)
@@ -47,18 +47,23 @@ function easysql_mysql_insert($array)
           }
       }
     $query = str_replace(',,)', ') ', $query1.',)').str_replace(',,)', ');', $query2.',)');
-    if ($db->connect_errno)
+    if (mysqli_errno($db))
       {
-        printf("Connect failed: %s\n", $db->connect_error);
+        printf("Connect failed: %s\n", mysqli_errno($db));
         exit();
       }
-    $db->query($query);
+    mysqli_query($db, $query);
     return mysqli_insert_id($db);
   }
 
 function easysql_mysql_update($array, $query='AND')
   {
-    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    if (mysqli_errno($db))
+      {
+        printf("Connect failed: %s\n", mysqli_errno($db));
+        exit();
+      }
     if(($query=='AND')||($query=='OR'))
       {
         foreach($array[2] as $key => $value)
@@ -89,17 +94,25 @@ function easysql_mysql_update($array, $query='AND')
       {
         $query1 = $query;
       }
-    if ($db->connect_errno)
+    if (mysqli_errno($db))
       {
-        printf("Connect failed: %s\n", $db->connect_error);
+        printf("Connect failed: %s\n", mysqli_errno($db));
         exit();
       }
-    $results = $db->query($query1);
+    $results = mysqli_query($db, $query1);
+    return $results;
   }
 
 function easysql_mysql_select($array, $limit='no', $query='AND')
   {
-    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    
+    if (mysqli_errno($db))
+      {
+        printf("Connect failed: %s\n", mysqli_errno($db));
+        exit();
+      }
+    
     $query1 = '';
     if(($query=='AND')||($query=='OR'))
       {
@@ -148,15 +161,15 @@ function easysql_mysql_select($array, $limit='no', $query='AND')
       {
         $query1 = $query;
       }
-    if ($db->connect_errno)
+    if (mysqli_errno($db))
       {
-        printf("Connect failed: %s\n", $db->connect_error);
+        printf("Connect failed: %s\n", mysqli_errno($db));
         exit();
       }
-    $results = $db->query($query1);
+    $results = mysqli_query($db, $query1);
     $i = 0;
-    
-    while ($row = $results->fetch_array())
+
+    while ($row = mysqli_fetch_array($results))
       {
         $return[$i] = $row;
         ++$i;
@@ -166,13 +179,10 @@ function easysql_mysql_select($array, $limit='no', $query='AND')
 
 function easysql_mysql_getsorted($array, $order = '', $limit = '', $direction = '')
   {
-    //$db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
     $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
     $query = 'SELECT * FROM '.$array[1];
-    //if ($db->connect_errno)
     if (mysqli_errno($db))
       {
-        //printf("Connect failed: %s\n", $db->connect_error);
         printf("Connect failed: %s\n", mysqli_errno($db));
         exit();
       }
@@ -184,18 +194,15 @@ function easysql_mysql_getsorted($array, $order = '', $limit = '', $direction = 
             $query .= ' DESC';
           }
       }
-  
+    
     if(is_int($limit))
       {
         $query .= ' LIMIT '.$limit.';';
       }
     
-    //$results = $db->query($query.';');
     $results = mysqli_query($db, $query.';');
     $i = 0;
     
-    
-    //while ($row = $results->fetch_array())
     while ($row = mysqli_fetch_array($results))
       {
         $return[$i] = $row;
@@ -269,24 +276,23 @@ function easysql_mysql_export($array, $format='csv', $where='return')
 
 function easysql_mysql_count($array)
   {
-    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
-    $query1 = "SELECT count(id) FROM $array[1] LIMIT 1";
-    $results = $db->query($query1);
+    $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $query1 = 'SELECT count(id) FROM '.$array[1].' LIMIT 1';
+    $results = mysqli_query($db, $query1);
     return $results;
   }
 
 function easysql_mysql_maxmin($array, $where='')
   {
-    $db = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+    $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
     $query1 = 'SELECT max('.$array[2].') FROM '.$array[1];
     if($where != '')
       {
         $query1 = $query1.' WHERE '.$where;
       }
-    $results = $db->query($query1);
-    $row = $results->fetch_array();
-
-    return $row[0];
+    $results = mysqli_query($db, $query1);
+    $rows = mysqli_fetch_all($results);
+    return $rows[0];
   }
 
 ?>
