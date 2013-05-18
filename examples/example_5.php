@@ -13,9 +13,9 @@
 
 
   include_once ('./notsoimportant.php');
-  include_once ('./easysql_mysql.php');
+  include_once ('../easysql_mysql.php');
   include_once ('./crypto.php');
-  include_once ('./mysql-config.php');
+  include_once ('../mysql-config.php');
 
   $create = $mysqlarray;
   $create['id'] = 'integer NOT NULL AUTO_INCREMENT PRIMARY KEY';

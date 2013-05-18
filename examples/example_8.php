@@ -7,7 +7,7 @@
  * Repo: https://github.com/SimonWaldherr/easySQL
  * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
  * License: MIT
- * Version: 0.4.1
+ * Version: 0.5
  *
  */
 
@@ -18,10 +18,10 @@
   
 
   include_once ('./notsoimportant.php');
-  include_once ('./easysql_mysql.php');
-  include_once ('./easysql_sqlite.php');
+  include_once ('../easysql_mysql.php');
+  include_once ('../easysql_sqlite.php');
   include_once ('./crypto.php');
-  include_once ('./mysql-config.php');
+  include_once ('../mysql-config.php');
   
   $mysqlarray[1] = '`db00046793`.`db00046796`';
   
