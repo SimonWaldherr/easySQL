@@ -14,6 +14,14 @@ a php database wrapper for easy read and write actions on a sql db (SQLite, MySQ
 		$array[0][2] = 'password';
 		$array[1] = 'tablename';
 	
+	//postgresql:
+		$array[0][0] = 'server.tld';
+		$array[0][1] = 'port';
+		$array[0][2] = 'dbname';
+		$array[0][3] = 'username';
+		$array[0][4] = 'password';
+		$array[1] = 'tablename';
+	
 	$array['id'] = 'integer PRIMARY KEY AUTOINCREMENT';
 	$array['username'] = 'varchar NOT NULL UNIQUE';
 	$array['password'] = 'varchar NOT NULL';

@@ -7,7 +7,7 @@
  * Repo: https://github.com/SimonWaldherr/easySQL
  * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
  * License: MIT
- * Version: 0.5
+ * Version: 0.5.1
  *
  */
 

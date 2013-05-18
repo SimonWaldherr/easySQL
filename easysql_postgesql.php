@@ -12,8 +12,8 @@
  */
 
 
-function easysql_mysql_create($array) {
-  $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+function easysql_postgresql_create($array) {
+  $db = pg_connect('host='.$array[0][0].' port='.$array[0][1].' dbname='.$array[0][2].' user='.$array[0][3].' password='.$array[0][4]);
 
   $query = 'CREATE TABLE ' . $array[1] . ' (';
   foreach ($array as $key => $value) {
@@ -21,16 +21,16 @@ function easysql_mysql_create($array) {
       $query .= ' `' . $key . '` ' . $value . ',';
     }
   }
-  if (mysqli_errno($db)) {
-    printf("Connect failed: %s\n", mysqli_errno($db));
+  if (pg_last_error($db)) {
+    printf("Connect failed: %s\n", pg_last_error($db));
     exit();
   }
   $query = str_replace(',,)', ')', $query . ',)');
-  return mysqli_query($db, $query);
+  return pg_query($db, $query);
 }
 
-function easysql_mysql_insert($array) {
-  $db   = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+function easysql_postgresql_insert($array) {
+  $db = pg_connect('host='.$array[0][0].' port='.$array[0][1].' dbname='.$array[0][2].' user='.$array[0][3].' password='.$array[0][4]);
   $query1 = 'INSERT INTO ' . $array[1] . ' (';
   $query2 = 'VALUES (';
   foreach ($array as $key => $value) {
@@ -40,18 +40,18 @@ function easysql_mysql_insert($array) {
     }
   }
   $query = str_replace(',,)', ') ', $query1 . ',)') . str_replace(',,)', ');', $query2 . ',)');
-  if (mysqli_errno($db)) {
-    printf("Connect failed: %s\n", mysqli_errno($db));
+  if (pg_last_error($db)) {
+    printf("Connect failed: %s\n", pg_last_error($db));
     exit();
   }
-  mysqli_query($db, $query);
-  return mysqli_insert_id($db);
+  $results = pg_query($db, $query);
+  return pg_last_oid($results);
 }
 
-function easysql_mysql_update($array, $query = 'AND') {
-  $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
-  if (mysqli_errno($db)) {
-    printf("Connect failed: %s\n", mysqli_errno($db));
+function easysql_postgresql_update($array, $query = 'AND') {
+  $db = pg_connect('host='.$array[0][0].' port='.$array[0][1].' dbname='.$array[0][2].' user='.$array[0][3].' password='.$array[0][4]);
+  if (pg_last_error($db)) {
+    printf("Connect failed: %s\n", pg_last_error($db));
     exit();
   }
   if (($query == 'AND') || ($query == 'OR')) {
@@ -74,19 +74,19 @@ function easysql_mysql_update($array, $query = 'AND') {
   } else {
     $query1 = $query;
   }
-  if (mysqli_errno($db)) {
-    printf("Connect failed: %s\n", mysqli_errno($db));
+  if (pg_last_error($db)) {
+    printf("Connect failed: %s\n", pg_last_error($db));
     exit();
   }
-  $results = mysqli_query($db, $query1);
+  $results = pg_query($db, $query1);
   return $results;
 }
 
-function easysql_mysql_select($array, $limit = 'no', $query = 'AND') {
-  $db = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+function easysql_postgresql_select($array, $limit = 'no', $query = 'AND') {
+  $db = pg_connect('host='.$array[0][0].' port='.$array[0][1].' dbname='.$array[0][2].' user='.$array[0][3].' password='.$array[0][4]);
 
-  if (mysqli_errno($db)) {
-    printf("Connect failed: %s\n", mysqli_errno($db));
+  if (pg_last_error($db)) {
+    printf("Connect failed: %s\n", pg_last_error($db));
     exit();
   }
 
@@ -122,25 +122,25 @@ function easysql_mysql_select($array, $limit = 'no', $query = 'AND') {
   } else {
     $query1 = $query;
   }
-  if (mysqli_errno($db)) {
-    printf("Connect failed: %s\n", mysqli_errno($db));
+  if (pg_last_error($db)) {
+    printf("Connect failed: %s\n", pg_last_error($db));
     exit();
   }
-  $results = mysqli_query($db, $query1);
+  $results = pg_query($db, $query1);
   $i     = 0;
 
-  while ($row = mysqli_fetch_array($results)) {
+  while ($row = pg_fetch_array($results)) {
     $return[$i] = $row;
     ++$i;
   }
   return $return;
 }
 
-function easysql_mysql_getsorted($array, $order = '', $limit = '', $direction = '') {
-  $db  = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+function easysql_postgresql_getsorted($array, $order = '', $limit = '', $direction = '') {
+  $db = pg_connect('host='.$array[0][0].' port='.$array[0][1].' dbname='.$array[0][2].' user='.$array[0][3].' password='.$array[0][4]);
   $query = 'SELECT * FROM ' . $array[1];
-  if (mysqli_errno($db)) {
-    printf("Connect failed: %s\n", mysqli_errno($db));
+  if (pg_last_error($db)) {
+    printf("Connect failed: %s\n", pg_last_error($db));
     exit();
   }
   if ($order != '') {
@@ -154,28 +154,28 @@ function easysql_mysql_getsorted($array, $order = '', $limit = '', $direction = 
     $query .= ' LIMIT ' . $limit . ';';
   }
 
-  $results = mysqli_query($db, $query . ';');
+  $results = pg_query($db, $query . ';');
   $i     = 0;
 
-  while ($row = mysqli_fetch_array($results)) {
+  while ($row = pg_fetch_array($results)) {
     $return[$i] = $row;
     ++$i;
   }
   return $return;
 }
 
-function easysql_mysql_export($array, $format = 'csv', $where = 'return') {
-  $db   = new mysqli($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+function easysql_postgresql_export($array, $format = 'csv', $where = 'return') {
+  $db = pg_connect('host='.$array[0][0].' port='.$array[0][1].' dbname='.$array[0][2].' user='.$array[0][3].' password='.$array[0][4]);
   $query1 = 'SELECT * FROM ' . $array[1];
-  if ($db->connect_errno) {
-    printf("Connect failed: %s\n", $db->connect_error);
+  if (pg_last_error($db)) {
+    printf("Connect failed: %s\n", pg_last_error($db));
     exit();
   }
-  $results = $db->query($query1);
+  $results = pg_query($db, $query1 . ';');
   $return  = '';
   $i     = 0;
   if ($format == 'csv') {
-    while ($row = $results->fetch_array()) {
+    while ($row = pg_fetch_array($results)) {
       foreach ($row as $id => $result) {
         if (is_int($id)) {
           if ($id == 0) {
@@ -211,21 +211,21 @@ function easysql_mysql_export($array, $format = 'csv', $where = 'return') {
   }
 }
 
-function easysql_mysql_count($array) {
-  $db    = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+function easysql_postgresql_count($array) {
+  $db = pg_connect('host='.$array[0][0].' port='.$array[0][1].' dbname='.$array[0][2].' user='.$array[0][3].' password='.$array[0][4]);
   $query1  = 'SELECT count(id) FROM ' . $array[1] . ' LIMIT 1';
-  $results = mysqli_query($db, $query1);
+  $results = pg_query($db, $query1);
   return $results;
 }
 
-function easysql_mysql_maxmin($array, $where = '') {
-  $db   = mysqli_connect($array[0][0], $array[0][1], $array[0][2], $array[0][3]);
+function easysql_postgresql_maxmin($array, $where = '') {
+  $db = pg_connect('host='.$array[0][0].' port='.$array[0][1].' dbname='.$array[0][2].' user='.$array[0][3].' password='.$array[0][4]);
   $query1 = 'SELECT max(' . $array[2] . ') FROM ' . $array[1];
   if ($where != '') {
     $query1 = $query1 . ' WHERE ' . $where;
   }
-  $results = mysqli_query($db, $query1);
-  $rows  = mysqli_fetch_all($results);
+  $results = pg_query($db, $query1);
+  $rows  = pg_fetch_all($results);
   return $rows[0];
 }
 

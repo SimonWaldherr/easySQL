@@ -5,7 +5,7 @@
  * Repo: https://github.com/SimonWaldherr/easySQL
  * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
  * License: MIT
- * Version: 0.5
+ * Version: 0.5.1
  *
 --><!DOCTYPE html>  
 <html lang="en">
@@ -58,6 +58,14 @@ html,body{color:black}*{margin:0;padding:0}body{font:13.34px helvetica,arial,fre
     $array[0][2] = 'password';
     $array[1] = 'tablename';
 
+//postgresql:
+    $array[0][0] = 'server.tld';
+    $array[0][1] = 'port';
+    $array[0][2] = 'dbname';
+    $array[0][3] = 'username';
+    $array[0][4] = 'password';
+    $array[1] = 'tablename';
+
 $array['id'] = 'integer PRIMARY KEY AUTOINCREMENT';
 $array['username'] = 'varchar NOT NULL UNIQUE';
 $array['password'] = 'varchar NOT NULL';
@@ -108,8 +116,8 @@ easysql_sqlite_export($export, 'csv', './file.csv');
 
 <p>Demo: <a href="http://cdn.simon.waldherr.eu/projects/easySQL/">here</a><br/>
 License: MIT<br/>
-Version: 0.5<br/>
-Date: Mai 2013</p>
+Version: 0.5.1<br/>
+Date: 05.2013</p>
     </div>
 </body>
 </html>
