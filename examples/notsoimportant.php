@@ -7,7 +7,7 @@
  * Repo: https://github.com/SimonWaldherr/easySQL
  * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
  * License: MIT
- * Version: 0.4.1
+ * Version: 0.5
  *
  */
 
@@ -23,20 +23,16 @@ ini_set('session.upload_progress.min-freq', '2');
 session_set_cookie_params('3900');
 session_start();
 
-if(isset($_SESSION['count']))
-  {
-	$_SESSION['count']++;
-  } 
-else
-  {
-   $_SESSION['count'] = 1;
-   $_SESSION['time']  = time();
-  }
+if (isset($_SESSION['count'])) {
+    $_SESSION['count']++;
+} else {
+    $_SESSION['count'] = 1;
+    $_SESSION['time']  = time();
+}
 
-if((time()-$_SESSION['time'])>30)
-{
-  $_SESSION['time'] = time();
-  session_regenerate_id();
+if ((time() - $_SESSION['time']) > 30) {
+    $_SESSION['time'] = time();
+    session_regenerate_id();
 }
 
 ?>

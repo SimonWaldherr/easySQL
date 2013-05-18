@@ -7,10 +7,9 @@
  * Repo: https://github.com/SimonWaldherr/easySQL
  * Demo: http://cdn.simon.waldherr.eu/projects/easySQL/
  * License: MIT
- * Version: 0.4.1
+ * Version: 0.5
  *
  */
-
 
 $mysqlarray[0][0] = 'localhost';
 $mysqlarray[0][1] = 'dbo00046793';
