@@ -1,42 +1,34 @@
-<!doctype html>
-<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
-<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
-  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
-  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script type="text/javascript" src="javascripts/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-  <title>easySQL</title>
-  <meta name="description" content="a database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)">
+    <title>easySQL by SimonWaldherr</title>
+  </head>
 
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <body>
 
-</head>
-
-<body>
-
-  <div class="wrapper">
     <header>
-      <h1 class="title">easySQL</h1>
+      <div class="container">
+        <h1>easySQL</h1>
+        <h2>a database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/SimonWaldherr/easySQL/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/SimonWaldherr/easySQL/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/SimonWaldherr/easySQL" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
     </header>
-    <div id="container">
-      <p class="tagline">a database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)</p>
-      <div id="main" role="main">
-        <div class="download-bar">
-        <div class="inner">
-          <a href="https://github.com/SimonWaldherr/easySQL/tarball/master" class="download-button tar"><span>Download</span></a>
-          <a href="https://github.com/SimonWaldherr/easySQL/zipball/master" class="download-button zip"><span>Download</span></a>
-          <a href="https://github.com/SimonWaldherr/easySQL" class="code">View easySQL on GitHub</a>
-        </div>
-        <span class="blc"></span><span class="trc"></span>
-        </div>
-        <article class="markdown-body">
-          <h1><a href="https://github.com/SimonWaldherr/easySQL">easySQL</a></h1>
+
+    <div class="container">
+      <section id="main_content">
+        <h1><a href="https://github.com/SimonWaldherr/easySQL">easySQL</a></h1>
 
 <p>a php database wrapper for easy read and write actions on a sql db (SQLite, MySQL, PostgreSQL, ...)</p>
 
@@ -50,6 +42,14 @@
     $array[0][0] = 'server.tld';
     $array[0][1] = 'username';
     $array[0][2] = 'password';
+    $array[1] = 'tablename';
+
+//postgresql:
+    $array[0][0] = 'server.tld';
+    $array[0][1] = 'port';
+    $array[0][2] = 'dbname';
+    $array[0][3] = 'username';
+    $array[0][4] = 'password';
     $array[1] = 'tablename';
 
 $array['id'] = 'integer PRIMARY KEY AUTOINCREMENT';
@@ -110,29 +110,12 @@ var_dump(easysql_sqlite_getsorted($array, 'id', 1, true));
 
 <p>Demo: <a href="http://cdn.simon.waldherr.eu/projects/easySQL/">here</a><br>
 License: MIT<br>
-Version: 0.4<br>
-Date: September 2012</p>
-        </article>
-      </div>
+Version: 0.5<br>
+Date: 05.2013</p>
+      </section>
     </div>
-    <footer>
-      <div class="owner">
-      <p><a href="https://github.com/SimonWaldherr" class="avatar"><img src="https://secure.gravatar.com/avatar/c722b17a21e301d3845be2b438b0aeea?s=30&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png" width="48" height="48"/></a> <a href="https://github.com/SimonWaldherr">SimonWaldherr</a> maintains <a href="https://github.com/SimonWaldherr/easySQL">easySQL</a></p>
 
-
-      </div>
-      <div class="creds">
-        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="http://twitter.com/jonrohan/">Jon Rohan</a></small>
-      </div>
-    </footer>
-  </div>
-  <div class="current-section">
-    <a href="#top">Scroll to top</a>
-    <a href="https://github.com/SimonWaldherr/easySQL/tarball/master" class="tar">tar</a><a href="https://github.com/SimonWaldherr/easySQL/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
-    <p class="name"></p>
-  </div>
-
-            <script type="text/javascript">
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -143,5 +126,5 @@ Date: September 2012</p>
             } catch(err) {}
           </script>
 
-</body>
+  </body>
 </html>
